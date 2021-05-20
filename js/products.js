@@ -1,9 +1,11 @@
 const app = {
+  el: {
+    productList: document.getElementById('productList'),
+    productCount: document.getElementById('productCount')
+  },
   data: {
     url: 'https://vue3-course-api.hexschool.io/',
     path: 'jayredk-hex',
-    productList: document.getElementById('productList'),
-    productCount: document.getElementById('productCount'),
     productData: []
   },
   getProducts() {
@@ -68,8 +70,8 @@ const app = {
       </td>
     </tr>`;
     })
-    this.data.productList.innerHTML = str;
-    this.data.productCount.textContent = this.data.productData.length;
+    this.el.productList.innerHTML = str;
+    this.el.productCount.textContent = this.data.productData.length;
   },
   created() {
     const token = document.cookie
@@ -80,7 +82,7 @@ const app = {
     axios.defaults.headers.common['Authorization'] = token;
 
     this.getProducts();
-    this.data.productList.addEventListener('click', this.deleteOrComplete);
+    this.el.productList.addEventListener('click', this.deleteOrComplete);
   }
 };
 
