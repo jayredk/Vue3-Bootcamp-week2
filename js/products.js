@@ -22,6 +22,9 @@ const app = {
     .catch((error) => console.log(error));
   },
   deleteProduct(id) {
+    const index = this.data.productData.findIndex((item) => item.id === id);
+    this.data.productData.splice(index, 1);
+
     axios.delete(`${this.data.url}api/${this.data.path}/admin/product/${id}`)
     .then((res) => {
       if (res.data.success) {console.log(res.data.message);}
@@ -29,13 +32,11 @@ const app = {
     .catch((error) => console.log(error));
   },
   deleteOrComplete(e) {
-    let action = e.target.dataset.action;
-    let id = e.target.dataset.id;
+    const action = e.target.dataset.action;
+    const id = e.target.dataset.id;
 
     if (action === 'remove' && confirm("不要刪掉\n罷脫啦\n有話好說")) {
-      deleteProduct(id);
-      let index = this.data.productData.findIndex((item) => item.id === id);
-      this.data.productData.splice(index, 1);
+      this.deleteProduct(id);
       this.render()
       
     } else if (action === 'complete') {
@@ -82,7 +83,7 @@ const app = {
     axios.defaults.headers.common['Authorization'] = token;
 
     this.getProducts();
-    this.el.productList.addEventListener('click', this.deleteOrComplete);
+    this.el.productList.addEventListener('click', this.deleteOrComplete.bind(this));
   }
 };
 
